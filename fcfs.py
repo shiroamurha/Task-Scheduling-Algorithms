@@ -1,13 +1,13 @@
-import taskgen
+from taskgen import Tasks
 
 
 
-def fcfs(tasks: list[dict[str: int]]) -> None:
+def fcfs(tasks: Tasks) -> None:
     
     time = 1
     
     for task in tasks:
-        print(f'Task {tasks.index(task)}:')
+        print(f'Task {task.get("num")}:')
         task['waiting'] = time -1
         
         while task.get('timeleft') > 0:
@@ -20,6 +20,5 @@ def fcfs(tasks: list[dict[str: int]]) -> None:
 
 
 if __name__ == "__main__":
-    tasks = taskgen.set_tasks()
+    tasks = Tasks()
     fcfs(tasks)
-    taskgen.show_waiting_time(tasks)
