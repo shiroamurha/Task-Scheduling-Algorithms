@@ -5,64 +5,86 @@ from time import sleep
 
 def sjf(tasks: Tasks, **preemp: bool) -> print:
     
+    # task queue
+    tasks_waiting: list[dict[str:int]] = []
+
+    # flags
+    has_task: bool
+    new_arrived: bool = True
+
     time = 1
+    while True:
 
-    if preemp:
+        sleep(.1) # delay for debugging
 
-        tasks_waiting: list[dict[str:int]] = []
-        has_task: bool
-        new_arrived: bool = True
+        # tasks_waiting becomes a queue of tasks where a task only enters when the time
+        # reaches its arrival time and only gets out when its timeleft reaches zero
+        for task in tasks:
+            if task.get('arrival') <= time and task not in tasks_waiting and task.get('timeleft') != 0:
+                tasks_waiting.append(task)
 
-        while True:
-            sleep(.1)
-            # appends all the tasks that passes of their arrival time
-            for task in tasks:
-                if task.get('arrival') <= time and task not in tasks_waiting and task.get('timeleft') != 0:
-                    tasks_waiting.append(task)
-
-            # gets the smallest task index of the waiting tasks
-            smallest = 0
-
+        # gets the smallest task index of the waiting tasks if it's preemptive
+        smallest = 0
+        if preemp:
             for task_index in range(len(tasks_waiting)):
                 if tasks_waiting[task_index].get('timeleft') < tasks_waiting[smallest].get('timeleft'):
                     smallest = task_index
 
+        # if it's not preemptive, sort by task arrival time
+        # and run the first of the queue
+        else:    
+            for task_num in range(len(tasks_waiting)):
+                for _ in range(len(tasks_waiting) - task_num):
 
-            if len(tasks_waiting) > 0:
+                    if tasks_waiting[task_num].get('arrival') < tasks_waiting[task_num+1].get('arrival'):
 
-                if new_arrived:
-                    print(f'Task {tasks_waiting[smallest].get("num")} arrived: ')
-                    tasks_waiting[smallest]['waiting'] = time - tasks_waiting[smallest]['arrival']
-                    new_arrived = False
-
-                if tasks_waiting[smallest].get('timeleft') != 0:
-                    print(f"    Time [ {time} ] -  Timeleft: {tasks_waiting[smallest].get('timeleft')}")
-                    tasks_waiting[smallest]['timeleft'] -= 1
-
-                    if tasks_waiting[smallest].get('timeleft') == 0:
-                        print('-----------------------')
-                        new_arrived = True
-                        del tasks_waiting[smallest]
+                        temp = tasks_waiting[task_num]
+                        tasks_waiting[task_num] = tasks_waiting[task_num+1]
+                        tasks_waiting[task_num+1] = temp
 
 
-            else:
-                print(f"    Time [ {time} ] - no task ")
+        # only if there is at least one task in the queue
+        if len(tasks_waiting) > 0:
 
-            time += 1
-            has_task = False
+            if new_arrived:
+                # if the flag of a new task arrival is raised show that the task has arrived,
+                # downs the flag and registers the time it has waited
+                print(f'Task {tasks_waiting[smallest].get("num")} arrived: ')
 
-            for task in tasks:
-                if task.get('timeleft') > 0:
-                    has_task = True
-            
-            if has_task:
-                continue
+                tasks_waiting[smallest]['waiting'] = time - tasks_waiting[smallest]['arrival']
+                new_arrived = False
+
+            if tasks_waiting[smallest].get('timeleft') != 0:
+
+                print(f"    Time [ {time} ] -  Timeleft: {tasks_waiting[smallest].get('timeleft')}")
+                tasks_waiting[smallest]['timeleft'] -= 1
+
+                if tasks_waiting[smallest].get('timeleft') == 0:
+                    # if the task's timeleft reaches 0 after the time tick, then erase it (only the pointer)
+                    # from the queue and raises a flag that another task is required
+                    print('-----------------------')
+                    new_arrived = True
+                    del tasks_waiting[smallest] 
+
+        else:
+            print(f"    Time [ {time} ] - no task ")
+
+        time += 1
+        has_task = False
+
+        for task in tasks:
+            if task.get('timeleft') > 0:
+                has_task = True
+        # if any task is above 0 timeleft, raises the flag
+        # that there is a task yet to run, else breaks the loop
+
+        if not has_task:
             break
 
-        tasks.show_waiting_time()
+    
+    tasks.show_waiting_time()
 
 
 
 if __name__ == "__main__":
     sjf(Tasks(), preemp = True) 
-    

@@ -13,15 +13,17 @@ class Tasks():
         if random:
             for _ in range(size):
                 
-                rand = randint(1, 10)
-                
+                rand = randint(1, 10+(self.size-3)) 
+                # the range of the numbers grows at the pace of the number of tasks
+
+                # every task is made of a dict of its infos
                 self.tasks.append({
                     'num': 0 if len(self.tasks) == 0 else len(self.tasks),
                     'runtime': rand,
                     'timeleft': rand,
                     'arrival': randint(1, 10),
                     'prio': randint(1, 15),
-                    'waiting': 0
+                    'waiting': None
                 })
                 
         else:
@@ -34,7 +36,7 @@ class Tasks():
                     'timeleft': None,
                     'arrival': int(input(f'Task {task_num} arrival: ')),
                     'prio': int(input(f'Task {task_num} priority: ')),
-                    'waiting': 0 
+                    'waiting': None
                 })
                 
                 # timeleft equals runtime at the begining
@@ -60,7 +62,8 @@ class Tasks():
     Priority - {self.tasks[task_num].get('prio')}     Priority - {self.tasks[task_num+1].get('prio')}     Priority - {self.tasks[task_num+2].get('prio')}\n"""
                 )
 
-        except IndexError:
+        # if the number of tasks is not a multiple of 3, then print the rest when it overflows the list index
+        except IndexError: 
 
             if self.size % 3 == 2:
 
@@ -84,12 +87,14 @@ f"""Task {self.tasks[task_num].get('num')}:
                 )
             #
 
-        print('-'*60)
+        print('-'*60) # spacer
             
 
         
     def show_waiting_time(self) -> print:
         
+        # calculates the average waiting time and prints it
+
         average_time = 0
         
         for task in self.tasks:
@@ -124,4 +129,3 @@ f"""Task {self.tasks[task_num].get('num')}:
 
 if __name__ == "__main__":
     a = Tasks()
-    print(a[0])
