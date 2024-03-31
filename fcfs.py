@@ -16,6 +16,7 @@ def fcfs(tasks: Tasks) -> None:
             time += 1
             task['timeleft'] -= 1
     print()
+    tasks.show_waiting_time()
     
 
 

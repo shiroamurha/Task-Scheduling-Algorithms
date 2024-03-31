@@ -11,6 +11,7 @@ def sjf(tasks: Tasks, **preemp: bool) -> print:
     # flags
     has_task: bool
     new_arrived: bool = True
+    last_task = -1
 
     time = 1
     while True:
@@ -44,11 +45,13 @@ def sjf(tasks: Tasks, **preemp: bool) -> print:
 
 
         # only if there is at least one task in the queue
+        
         if len(tasks_waiting) > 0:
 
-            if new_arrived:
+            if new_arrived or last_task != tasks_waiting[smallest].get("num"):
                 # if the flag of a new task arrival is raised show that the task has arrived,
                 # downs the flag and registers the time it has waited
+                print('-------------------------')
                 print(f'Task {tasks_waiting[smallest].get("num")} arrived: ')
 
                 tasks_waiting[smallest]['waiting'] = time - tasks_waiting[smallest]['arrival']
@@ -62,7 +65,6 @@ def sjf(tasks: Tasks, **preemp: bool) -> print:
                 if tasks_waiting[smallest].get('timeleft') == 0:
                     # if the task's timeleft reaches 0 after the time tick, then erase it (only the pointer)
                     # from the queue and raises a flag that another task is required
-                    print('-----------------------')
                     new_arrived = True
                     del tasks_waiting[smallest] 
 
@@ -71,6 +73,7 @@ def sjf(tasks: Tasks, **preemp: bool) -> print:
 
         time += 1
         has_task = False
+        last_task = tasks_waiting[smallest].get('num')
 
         for task in tasks:
             if task.get('timeleft') > 0:

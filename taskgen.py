@@ -104,7 +104,10 @@ f"""Task {self.tasks[task_num].get('num')}:
         average_time /= len(self.tasks)
         
         print(f'[ Average waiting time: {average_time:.1f} ]')    
-        
+    
+    def reset(self):
+        for task in self.tasks:
+            task['timeleft'] = task['runtime']
     
     
     def __getitem__(self, slicer: slice):
