@@ -1,2 +1,2 @@
 # Task-Scheduling-Algorithms
-TODO: explica como funciona essa porra
+TODO: explica como funciona e comentar tudo
