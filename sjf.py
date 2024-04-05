@@ -16,7 +16,7 @@ def sjf(tasks: Tasks, **preemp: bool) -> print:
     time = 1
     while True:
 
-        sleep(.1) # delay for debugging
+        #sleep(.1) # delay for debugging
 
         # tasks_waiting becomes a queue of tasks where a task only enters when the time
         # reaches its arrival time and only gets out when its timeleft reaches zero
@@ -61,19 +61,20 @@ def sjf(tasks: Tasks, **preemp: bool) -> print:
 
                 print(f"    Time [ {time} ] -  Timeleft: {tasks_waiting[smallest].get('timeleft')}")
                 tasks_waiting[smallest]['timeleft'] -= 1
-
+                last_task = tasks_waiting[smallest].get('num')
+                
                 if tasks_waiting[smallest].get('timeleft') == 0:
                     # if the task's timeleft reaches 0 after the time tick, then erase it (only the pointer)
                     # from the queue and raises a flag that another task is required
                     new_arrived = True
                     del tasks_waiting[smallest] 
 
+            
         else:
             print(f"    Time [ {time} ] - no task ")
 
         time += 1
         has_task = False
-        last_task = tasks_waiting[smallest].get('num')
 
         for task in tasks:
             if task.get('timeleft') > 0:
@@ -91,3 +92,4 @@ def sjf(tasks: Tasks, **preemp: bool) -> print:
 
 if __name__ == "__main__":
     sjf(Tasks(), preemp = True) 
+    sjf(Tasks(), preemp = False) 
