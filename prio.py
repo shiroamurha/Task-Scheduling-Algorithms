@@ -3,7 +3,7 @@ from time import sleep
 
 
 
-def prio(tasks: Tasks, **preemp: bool) -> print:
+def prio(tasks: Tasks, preemp: bool) -> print:
     
     # task queue
     tasks_waiting: list[dict[str:int]] = []
@@ -21,6 +21,7 @@ def prio(tasks: Tasks, **preemp: bool) -> print:
 
         # tasks_waiting becomes a queue of tasks where a task only enters when the time
         # reaches its arrival time and only gets out when its timeleft reaches zero
+        
         for task in tasks:
             if task.get('arrival') <= time and task not in tasks_waiting and task.get('timeleft') != 0:
                 tasks_waiting.append(task)
@@ -32,6 +33,7 @@ def prio(tasks: Tasks, **preemp: bool) -> print:
             for task_index in range(len(tasks_waiting)):
                 if tasks_waiting[task_index].get('prio') > tasks_waiting[highest_prio].get('prio'):
                     highest_prio = task_index
+            
 
         # if it's not preemptive, sort by task arrival time
         # and run the first of the queue
@@ -44,13 +46,12 @@ def prio(tasks: Tasks, **preemp: bool) -> print:
                         temp = tasks_waiting[task_num]
                         tasks_waiting[task_num] = tasks_waiting[task_num+1]
                         tasks_waiting[task_num+1] = temp
-            highest_prio = 0
 
 
             for n in range(len(tasks_waiting)):
                 for i in range(len(tasks_waiting) - n - 1):
 
-                    if tasks_waiting[i].get('arrival') == tasks_waiting[i+1].get('arrival') and tasks_waiting[i].get('prio') > tasks_waiting[i+1].get('prio'):
+                    if tasks_waiting[i].get('arrival') == tasks_waiting[i+1].get('arrival') and tasks_waiting[i].get('prio') < tasks_waiting[i+1].get('prio'):
 
                         temp = tasks_waiting[i]
                         tasks_waiting[i] = tasks_waiting[i+1]
@@ -68,7 +69,8 @@ def prio(tasks: Tasks, **preemp: bool) -> print:
                 print('-------------------------')
                 print(f'Task {tasks_waiting[highest_prio].get("num")} arrived: ')
 
-                tasks_waiting[highest_prio]['waiting'] = time - tasks_waiting[highest_prio]['arrival']
+                tasks_waiting[highest_prio]['waiting'] = time - tasks_waiting[highest_prio]['arrival'] - (tasks_waiting[highest_prio].get('runtime')- tasks_waiting[highest_prio].get('timeleft'))
+
                 new_arrived = False
 
             if tasks_waiting[highest_prio].get('timeleft') != 0:
@@ -105,5 +107,5 @@ def prio(tasks: Tasks, **preemp: bool) -> print:
 
 
 if __name__ == "__main__":
-    prio(Tasks(), preemp = False) 
+    prio(Tasks(), preemp = True) 
     

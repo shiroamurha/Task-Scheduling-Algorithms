@@ -1,4 +1,5 @@
 from random import randint
+from time import sleep
 
 
 
@@ -87,7 +88,7 @@ f"""Task {self.tasks[task_num].get('num')}:
                 )
             #
 
-        print('-'*60) # spacer
+        print('-'*56) # spacer
             
 
         
@@ -98,11 +99,13 @@ f"""Task {self.tasks[task_num].get('num')}:
         average_time = 0
         
         for task in self.tasks:
+            sleep(.1)
             print(f'Task {task.get("num")} - waiting time: {task.get("waiting")}')
             average_time += task.get('waiting')
         
         average_time /= len(self.tasks)
         
+        sleep(.2)
         print(f'[ Average waiting time: {average_time:.1f} ]')    
     
     def reset(self):

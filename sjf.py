@@ -1,9 +1,9 @@
 from taskgen import Tasks
 from time import sleep
 
- 
 
-def sjf(tasks: Tasks, **preemp: bool) -> print:
+
+def sjf(tasks: Tasks, preemp: bool) -> print:
     
     # task queue
     tasks_waiting: list[dict[str:int]] = []
@@ -34,6 +34,7 @@ def sjf(tasks: Tasks, **preemp: bool) -> print:
         # if it's not preemptive, sort by task arrival time
         # and run the first of the queue
         else:    
+            print(preemp, preemp is False)
             for task_num in range(len(tasks_waiting)):
                 for _ in range(len(tasks_waiting) - task_num):
 
