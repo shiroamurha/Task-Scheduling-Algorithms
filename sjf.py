@@ -1,7 +1,7 @@
 from taskgen import Tasks
 from time import sleep
 
-
+ 
 
 def sjf(tasks: Tasks, **preemp: bool) -> print:
     
