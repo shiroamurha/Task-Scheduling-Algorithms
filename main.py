@@ -1,6 +1,8 @@
 from taskgen import Tasks
 from fcfs import fcfs
 from sjf import sjf
+from prio import prio
+from round_robin import roundr
 
 
 
@@ -8,9 +10,9 @@ cases = {
     '1': lambda t: bool(bool(fcfs(t))+1),
     '2': lambda t: bool(bool(sjf(t, preemp=True))+1),
     '3': lambda t: bool(bool(sjf(t, preemp=False))+1),
-    '4': lambda t: ...,
-    '5': lambda t: ...,
-    '6': lambda t: ...,
+    '4': lambda t: bool(bool(prio(t, preemp=True))+1),
+    '5': lambda t: bool(bool(prio(t, preemp=False))+1),
+    '6': lambda t: bool(bool(roundr(t))+1),
     '0': lambda t: False  
 }
 

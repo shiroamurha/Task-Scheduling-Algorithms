@@ -21,19 +21,16 @@ def prio(tasks: Tasks, preemp: bool) -> print:
 
         # tasks_waiting becomes a queue of tasks where a task only enters when the time
         # reaches its arrival time and only gets out when its timeleft reaches zero
-        
         for task in tasks:
             if task.get('arrival') <= time and task not in tasks_waiting and task.get('timeleft') != 0:
                 tasks_waiting.append(task)
 
         # gets the highest priority task index of the waiting tasks if it's preemptive
-        
         if preemp:
             highest_prio = 0
             for task_index in range(len(tasks_waiting)):
                 if tasks_waiting[task_index].get('prio') > tasks_waiting[highest_prio].get('prio'):
                     highest_prio = task_index
-            
 
         # if it's not preemptive, sort by task arrival time
         # and run the first of the queue
@@ -47,7 +44,7 @@ def prio(tasks: Tasks, preemp: bool) -> print:
                         tasks_waiting[task_num] = tasks_waiting[task_num+1]
                         tasks_waiting[task_num+1] = temp
 
-
+            # switches places of tasks with same arrival time but less priority 
             for n in range(len(tasks_waiting)):
                 for i in range(len(tasks_waiting) - n - 1):
 
@@ -57,10 +54,7 @@ def prio(tasks: Tasks, preemp: bool) -> print:
                         tasks_waiting[i] = tasks_waiting[i+1]
                         tasks_waiting[i+1] = temp
 
-
-
         # only if there is at least one task in the queue
-        
         if len(tasks_waiting) > 0:
 
             if new_arrived or last_task != tasks_waiting[highest_prio].get("num"):
@@ -69,7 +63,7 @@ def prio(tasks: Tasks, preemp: bool) -> print:
                 print('-------------------------')
                 print(f'Task {tasks_waiting[highest_prio].get("num")} arrived: ')
 
-                tasks_waiting[highest_prio]['waiting'] = time - tasks_waiting[highest_prio]['arrival'] - (tasks_waiting[highest_prio].get('runtime')- tasks_waiting[highest_prio].get('timeleft'))
+                tasks_waiting[highest_prio]['waiting'] = time - tasks_waiting[highest_prio]['arrival'] - (tasks_waiting[highest_prio].get('runtime') - tasks_waiting[highest_prio].get('timeleft'))
 
                 new_arrived = False
 
@@ -84,8 +78,7 @@ def prio(tasks: Tasks, preemp: bool) -> print:
                     # from the queue and raises a flag that another task is required
                     new_arrived = True
                     del tasks_waiting[highest_prio] 
-
-            
+        
         else:
             print(f"    Time [ {time} ] - no task ")
 
@@ -101,7 +94,6 @@ def prio(tasks: Tasks, preemp: bool) -> print:
         if not has_task:
             break
 
-    
     tasks.show_waiting_time()
 
 
