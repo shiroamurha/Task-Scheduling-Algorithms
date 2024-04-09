@@ -42,13 +42,13 @@ def select_mode() -> None:
     while run_again:
         
         if opt == '7':
-                random = input('Random? [any char = Y / empty = N]  ')
-                size = int(input('no. of tasks: '))
+            random = input('Random? [any char = Y / empty = N]  ')
+            size = int(input('no. of tasks: '))
 
-                if random:
-                    tasks = Tasks(size=size)
-                else:
-                    tasks = Tasks(random = False, size=size)
+            if random:
+                tasks = Tasks(size=size)
+            else:
+                tasks = Tasks(random = False, size=size)
                     
         opt = input(menu)
         if opt not in '01234567' or opt == '':

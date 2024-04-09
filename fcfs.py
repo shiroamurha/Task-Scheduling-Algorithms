@@ -3,7 +3,7 @@ from time import sleep
 
 
 
-def fcfs(tasks: Tasks) -> None:
+def fcfs(tasks: Tasks) -> True:
     
     time = 1
     
@@ -21,6 +21,7 @@ def fcfs(tasks: Tasks) -> None:
     sleep(.1)
     tasks.show_waiting_time()
     sleep(.1)
+    
     return True
     
 

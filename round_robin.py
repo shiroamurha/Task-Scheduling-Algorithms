@@ -3,7 +3,7 @@ from time import sleep
 
 
 
-def roundr(tasks: Tasks):
+def roundr(tasks: Tasks) -> True:
 
     timeslice = int(input('enter timeslice: ')) 
 
