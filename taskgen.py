@@ -32,7 +32,8 @@ class Tasks():
             for task_num in range(size):
                 
                 self.tasks.append({
-                    
+
+                    'num': task_num,
                     'runtime': int(input(f'Task {task_num} runtime: ')),
                     'timeleft': None,
                     'arrival': int(input(f'Task {task_num} arrival: ')),
@@ -43,6 +44,7 @@ class Tasks():
                 # timeleft equals runtime at the begining
                 self.tasks[task_num]['timeleft'] = self.tasks[task_num].get('runtime')
                 print()
+
         
         self.show_tasks()
         
@@ -106,7 +108,8 @@ f"""Task {self.tasks[task_num].get('num')}:
         average_time /= len(self.tasks)
         
         sleep(.2)
-        print(f'[ Average waiting time: {average_time:.1f} ]')    
+        print(f'[ Average waiting time: {average_time:.1f} ]')  
+        sleep(.2)  
     
     def reset(self):
         for task in self.tasks:

@@ -1,4 +1,5 @@
 from taskgen import Tasks
+from time import sleep
 
 
 
@@ -11,12 +12,16 @@ def fcfs(tasks: Tasks) -> None:
         task['waiting'] = time -1
         
         while task.get('timeleft') > 0:
+            sleep(.1)
             print(f"    Time [ {time} ] -  Timeleft: {task.get('timeleft')}")
             
             time += 1
             task['timeleft'] -= 1
     print()
+    sleep(.1)
     tasks.show_waiting_time()
+    sleep(.1)
+    return True
     
 
 

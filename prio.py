@@ -3,7 +3,7 @@ from time import sleep
 
 
 
-def prio(tasks: Tasks, preemp: bool) -> print:
+def prio(tasks: Tasks, preemp: bool) -> True:
     
     # task queue
     tasks_waiting: list[dict[str:int]] = []
@@ -95,7 +95,7 @@ def prio(tasks: Tasks, preemp: bool) -> print:
             break
 
     tasks.show_waiting_time()
-
+    return True
 
 
 if __name__ == "__main__":

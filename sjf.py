@@ -3,7 +3,7 @@ from time import sleep
 
 
 
-def sjf(tasks: Tasks, preemp: bool) -> print:
+def sjf(tasks: Tasks, preemp: bool) -> True:
     
     # task queue
     tasks_waiting: list[dict[str:int]] = []
@@ -34,9 +34,8 @@ def sjf(tasks: Tasks, preemp: bool) -> print:
         # if it's not preemptive, sort by task arrival time
         # and run the first of the queue
         else:    
-            print(preemp, preemp is False)
             for task_num in range(len(tasks_waiting)):
-                for _ in range(len(tasks_waiting) - task_num):
+                for _ in range(len(tasks_waiting) - task_num - 1):
 
                     if tasks_waiting[task_num].get('arrival') < tasks_waiting[task_num+1].get('arrival'):
 
@@ -55,7 +54,7 @@ def sjf(tasks: Tasks, preemp: bool) -> print:
                 print('-------------------------')
                 print(f'Task {tasks_waiting[smallest].get("num")} arrived: ')
 
-                tasks_waiting[smallest]['waiting'] = time - tasks_waiting[smallest]['arrival']
+                tasks_waiting[smallest]['waiting'] = time - tasks_waiting[smallest]['arrival'] - (tasks_waiting[smallest].get('runtime') - tasks_waiting[smallest].get('timeleft'))
                 new_arrived = False
 
             if tasks_waiting[smallest].get('timeleft') != 0:
@@ -88,6 +87,7 @@ def sjf(tasks: Tasks, preemp: bool) -> print:
 
     
     tasks.show_waiting_time()
+    return True
 
 
 

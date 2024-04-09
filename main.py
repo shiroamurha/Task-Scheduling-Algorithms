@@ -7,13 +7,14 @@ from round_robin import roundr
 
 
 cases = {
-    '1': lambda t: bool(bool(fcfs(t))+1),
-    '2': lambda t: bool(bool(sjf(t, preemp=True))+1),
-    '3': lambda t: bool(bool(sjf(t, preemp=False))+1),
-    '4': lambda t: bool(bool(prio(t, preemp=True))+1),
-    '5': lambda t: bool(bool(prio(t, preemp=False))+1),
-    '6': lambda t: bool(bool(roundr(t))+1),
-    '0': lambda t: False  
+    '1': lambda t: fcfs(t),
+    '2': lambda t: sjf(t, preemp=True),
+    '3': lambda t: sjf(t, preemp=False),
+    '4': lambda t: prio(t, preemp=True),
+    '5': lambda t: prio(t, preemp=False),
+    '6': lambda t: roundr(t),
+    '7': lambda t: True,
+    '0': lambda t: bool(print('     > Exiting . . . <     \n'))
 }
 
 menu = f"""{"-"*27}
@@ -25,6 +26,7 @@ menu = f"""{"-"*27}
     4 - Priority
     5 - Priority (NPE)
     6 - Round Robin
+    7 - Set new tasks
     0 - Exit
 NPE = not preemptive
 {"-"*27}
@@ -34,25 +36,28 @@ NPE = not preemptive
 
 def select_mode() -> None:
 
-    random = input('Random? [any char = Y / empty = N]  ')
-
-    if random:
-        tasks = Tasks()
-
-    else:
-        size = int(input('no. of tasks: '))
-        tasks(random = False, size=size)
-    
     run_again = True
+    opt = '7'
 
     while run_again:
-
-        opt = input(menu)
-        run_again = bool(cases.get(opt)(tasks)) # if 0 returns False
-
-        tasks.reset()
         
+        if opt == '7':
+                random = input('Random? [any char = Y / empty = N]  ')
+                size = int(input('no. of tasks: '))
 
+                if random:
+                    tasks = Tasks(size=size)
+                else:
+                    tasks = Tasks(random = False, size=size)
+                    
+        opt = input(menu)
+        if opt not in '01234567' or opt == '':
+            continue
+        run_again = cases.get(opt)(tasks) # if 0 returns False
+        tasks.reset()
+
+        
+        
 
 if __name__ == "__main__":
     select_mode()
