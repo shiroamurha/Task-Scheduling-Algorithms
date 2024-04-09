@@ -107,7 +107,7 @@ f"""Task {self.tasks[task_num].get('num')}:
         
         average_time /= len(self.tasks)
         
-        sleep(.2)
+
         print(f'[ Average waiting time: {average_time:.1f} ]')  
         sleep(.2)  
     
@@ -132,7 +132,6 @@ f"""Task {self.tasks[task_num].get('num')}:
 
     def __len__(self):
         return len(self.tasks)
-
 
 
 
