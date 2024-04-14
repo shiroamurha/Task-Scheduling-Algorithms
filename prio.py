@@ -9,13 +9,13 @@ def prio(tasks: Tasks, preemp: bool) -> True:
     tasks_waiting: list[dict[str:int]] = []
 
     # flags
-    has_task: bool
+    has_task: bool = True
     new_arrived: bool = True
     last_task = -1
     highest_prio = 0
 
     time = 1
-    while True:
+    while has_task:
 
         sleep(.1) # delay for debugging
 
@@ -91,8 +91,6 @@ def prio(tasks: Tasks, preemp: bool) -> True:
         # if any task is above 0 timeleft, raises the flag
         # that there is a task yet to run, else breaks the loop
 
-        if not has_task:
-            break
 
     tasks.show_waiting_time()
     return True
