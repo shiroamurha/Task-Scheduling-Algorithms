@@ -61,3 +61,4 @@ def select_mode() -> None:
 
 if __name__ == "__main__":
     select_mode()
+    

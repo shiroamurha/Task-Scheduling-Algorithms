@@ -5,7 +5,7 @@ from time import sleep
 
 def roundr(tasks: Tasks) -> True:
 
-    timeslice = int(input('enter timeslice: ')) 
+    timeslice = 3#int(input('enter timeslice: ')) 
 
     time = 1
     has_task = True
